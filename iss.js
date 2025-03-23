@@ -8,12 +8,12 @@ const fetchMyIP = function(callback) {
     }
 
     if (response.statusCode !== 200) {
-      const msg = `Status code ${response.statusCode} when fetching IP. Response: ${body}`;
+      const msg = `Status code ${response.statusCode} when fetching IP. Response: ${body.ip}`;
       callback(Error(msg), null);
       return;
     }
 
-    return callback(null, body);
+    return callback(null, body.ip);
   });
 };
 
