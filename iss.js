@@ -39,6 +39,7 @@ const fetchISSFlyOverTimes = function(geoCoords, callback) {
   needle.get(`https://iss-flyover.herokuapp.com/json/?lat=${geoCoords.latitude}&lon=${geoCoords.longitude}`, (error, response, body) => {
     if (error) {
       callback(error, null);
+      return;
     }
 
     if (response.statusCode !== 200) {
