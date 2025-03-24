@@ -1,5 +1,32 @@
 const needle = require("needle");
 
+const nextISSTimesForMyLocation = function(callback) {
+  fetchMyIP((error, ip) => {
+    if (error) {
+      console.log("It didn't work!", error);
+      return;
+    }
+
+    fetchCoordsByIP(ip, (error, data) => {
+      if (error) {
+        console.log("It didn't work!", error);
+        return;
+      }
+
+      fetchISSFlyOverTimes(data, (error, times) => {
+        if (error) {
+          console.log("It didn't work!", error);
+          return;
+        }
+
+        for (const time of times) {
+          console.log(`Next pass at ${new Date(time.risetime * 1000)} for ${time.duration} seconds!`);
+        }
+      });
+    });
+  });
+};
+
 const fetchMyIP = function(callback) {
   needle.get('https://api.ipify.org?format=json', (error, response, body) => {
     if (error) {
@@ -52,4 +79,4 @@ const fetchISSFlyOverTimes = function(geoCoords, callback) {
   });
 };
 
-module.exports = { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes };
+module.exports = { nextISSTimesForMyLocation };
